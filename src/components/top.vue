@@ -111,7 +111,7 @@ export default {
         .get(`/api/goods?project_id=18&classify_id=54`)
         .then((res) => {
           this.$store.commit("getProductList", res.data.result.rows);
-          this.$router.replace(`/allproduct/54`);
+          this.$router.replace(`/allproduct/54?type=手机`);
         })
         .catch((err) => {
           console.log(err);
@@ -123,7 +123,7 @@ export default {
         .get(`/api/goods?project_id=18&classify_id=115`)
         .then((res) => {
           this.$store.commit("getProductList", res.data.result.rows);
-          this.$router.replace(`/allproduct/115`);
+          this.$router.replace(`/allproduct/115?type=家电`);
         })
         .catch((err) => {
           console.log(err);

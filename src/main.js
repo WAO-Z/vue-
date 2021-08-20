@@ -14,8 +14,8 @@ Vue.prototype.axios = _axios
 
 Vue.config.productionTip = false
 
-import { Carousel, CarouselItem, Button, Dialog, Form, FormItem, Input, Dropdown, DropdownMenu, DropdownItem, Message } from 'element-ui'
-Vue.use(Carousel).use(CarouselItem).use(Button).use(Dialog).use(Form).use(FormItem).use(Input).use(Dropdown).use(DropdownMenu).use(DropdownItem).use(Message);
+import { Carousel, CarouselItem, Button, Dialog, Form, FormItem, Input, Dropdown, DropdownMenu, DropdownItem, Message, Checkbox } from 'element-ui'
+Vue.use(Carousel).use(CarouselItem).use(Button).use(Dialog).use(Form).use(FormItem).use(Input).use(Dropdown).use(DropdownMenu).use(DropdownItem).use(Message).use(Checkbox);
 Vue.prototype.$message = Message
 new Vue({
   router,

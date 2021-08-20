@@ -2,7 +2,7 @@
   <div id="app">
     <login></login>
     <register></register>
-    <top></top>
+    <top v-if="$route.name != 'shoppingCart'"></top>
     <router-view></router-view>
     <!-- <footer></footer> -->
     <dsdsd></dsdsd>
