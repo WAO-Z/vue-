@@ -43,7 +43,16 @@ export default {
       this.$router.push(`buy/${id}`);
     },
     more() {
-      this.$router.push(`allproduct/54?type=手机`);
+      this.axios
+        .get(`/api/goods?project_id=18&classify_id=54`)
+        .then((res) => {
+          this.$store.commit("getProductList", res.data.result.rows);
+          this.$router.replace(`/allproduct/54?type=手机`);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      // this.$router.push(`allproduct/54?type=手机`);
     },
   },
 };

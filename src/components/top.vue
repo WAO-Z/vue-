@@ -46,7 +46,7 @@
         </div>
       </div>
       <div class="top-nav w">
-        <router-link to="/">
+        <router-link to="/" replace>
           <img src="@/assets/imges/logo-mi2.png" alt="" class="fl" />
         </router-link>
         <div class="nav fl">
@@ -96,14 +96,15 @@ export default {
       }
     },
     shopCar() {
-      // this.$router.push("shopcar");
       this.axios
         .get(`api/shoppingCart?project_id=${this.$store.state.pjID}`)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          // this.$store.state.getShoppingCart = res.data.result;
+          this.$router.push("/shoppingCart");
         })
         .catch((err) => {
           console.log(err);
+          this.$store.state.centerDialogVisible = true;
         });
     },
     phone() {
@@ -154,7 +155,7 @@ export default {
     line-height: 30px;
     background-color: rgb(51, 51, 51);
     font-size: 12px;
-    box-shadow: 0 0 5px 5px rgb(51, 51, 51);
+    /* box-shadow: 0 0 5px 5px rgb(51, 51, 51); */
     .top-header {
       display: flex;
       justify-content: space-between;

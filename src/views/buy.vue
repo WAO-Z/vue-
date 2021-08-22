@@ -100,14 +100,19 @@ export default {
     add() {
       this.axios
         .post(`api/shoppingCart`, {
-          goods_id: "648",
+          goods_id: this.productData.id,
           num: 1,
         })
         .then((res) => {
+          this.$message({
+            message: "成功加入购物车",
+            type: "success",
+          });
           console.log(res);
         })
         .catch((err) => {
           console.log(err);
+          this.$store.state.centerDialogVisible = true;
         });
     },
   },

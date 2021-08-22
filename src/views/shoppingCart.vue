@@ -7,7 +7,7 @@
             <img src="@/assets/imges/logo-mi2.png" alt="" />
           </router-link>
         </div>
-        <h3 class="fl">我的购物车</h3>
+        <h3 class="fl" @click="lalala">我的购物车</h3>
         <div class="rt fr">
           <span @click="login" v-if="!this.$store.state.token">登录</span>
           <span class="sep" v-if="!this.$store.state.token">|</span>
@@ -26,50 +26,54 @@
       </div>
     </header>
     <main>
-      <div class="car w">
-        <ul>
-          <!-- 购物车表头 -->
-          <li class="header">
-            <div class="pro-check fl">
-              <el-checkbox>全选</el-checkbox>
-            </div>
-            <div class="pro-img fl"></div>
-            <div class="pro-name fl">商品名称</div>
-            <div class="pro-price fl">单价</div>
-            <div class="pro-num fl">数量</div>
-            <div class="pro-total fl">小计</div>
-            <div class="pro-action fl">操作</div>
-          </li>
-          <!-- 购物车表头END -->
+      <car
+        :getShoppingCart="getShoppingCart"
+        :isAllSeletor="isAllSeletor"
+        @seletorController="seletorController"
+        @changeSeletor="changeSeletor"
+        @del="del"
+        @add="add"
+        @subtract="subtract"
+      ></car>
 
-          <li v-for="item in getShoppingCart" :key="item.id">
-            <div class="pro-check fl">
-              <el-checkbox></el-checkbox>
-            </div>
-            <div class="pro-img fl">
-              <img :src="item.s_good.s_goods_photos[0].path" alt="" />
-            </div>
-            <div class="pro-name fl">{{ item.s_good.name }}</div>
-            <div class="pro-price fl">{{ item.s_good.sale_price }} 元</div>
-            <div class="pro-num fl">{{ item.num }}</div>
-            <div class="pro-total fl">
-              {{ item.num * item.s_good.sale_price }} 元
-            </div>
-            <div class="pro-action fl">
-              <i class="el-icon-close"></i>
-            </div>
-          </li>
-        </ul>
+      <div class="foot w">
+        <div class="lt">
+          <p>
+            共 <span>{{ getShoppingCart.length }}</span> 件商品，已选择
+            <span>{{ sumNum }}</span
+            >件
+          </p>
+        </div>
+        <div class="rt" v-if="getShoppingCart.length">
+          <p>
+            合计：<span>{{ sumPrice }}</span
+            >元
+          </p>
+          <span class="toPay">去结算</span>
+        </div>
+        <div class="rt" v-if="!getShoppingCart.length">
+          <p>
+            合计：<span>{{ sumPrice }}</span
+            >元
+          </p>
+          <span class="toPay notoPay">去结算</span>
+        </div>
       </div>
     </main>
   </div>
 </template>
 
 <script>
+import Car from "@/components/sCar.vue";
+
 export default {
+  components: {
+    Car,
+  },
   data: function () {
     return {
       getShoppingCart: [],
+      isAllSeletor: false,
     };
   },
   methods: {
@@ -90,6 +94,54 @@ export default {
         sessionStorage.setItem("token", "");
         this.$store.state.token = 0;
         this.$message("注销成功");
+        this.$router.replace("/");
+      }
+    },
+    seletorController(isAllSeletor) {
+      this.getShoppingCart.forEach((item) => {
+        item.isSeletor = isAllSeletor;
+      });
+      console.log(this.getShoppingCart[0].isSeletor);
+    },
+    changeSeletor(nowIndex, nowSeletor) {
+      this.getShoppingCart[nowIndex].isSeletor = nowSeletor;
+    },
+    lalala() {
+      this.getShoppingCart[0].isSeletor = true;
+      // console.log(typeof this.getShoppingCart[0].isSeletor);
+    },
+    del(id) {
+      this.axios
+        .delete(`api/shoppingCart/${id}`)
+        .then(() => {
+          location.reload();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    add(id, n, index) {
+      n++;
+      this.axios
+        .put(`api/shoppingCart/${id}`, { num: n })
+        .then(() => {
+          this.getShoppingCart[index].num += 1;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    subtract(id, n, index) {
+      if (n > 1) {
+        n--;
+        this.axios
+          .put(`api/shoppingCart/${id}`, { num: n })
+          .then(() => {
+            this.getShoppingCart[index].num -= 1;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     },
   },
@@ -98,11 +150,49 @@ export default {
       .get(`api/shoppingCart?project_id=${this.$store.state.pjID}`)
       .then((res) => {
         this.getShoppingCart = res.data.result;
-        console.log(this.getShoppingCart);
+        this.getShoppingCart.map((item) => {
+          item.isSeletor = false;
+        });
       })
       .catch((err) => {
         console.log(err);
       });
+  },
+  computed: {
+    checkedArr() {
+      return this.getShoppingCart.filter((item) => {
+        return item.isSeletor;
+      });
+    },
+    sumPrice() {
+      return this.checkedArr.reduce((pre, cur) => {
+        if (cur.s_good.sale_price) {
+          return pre + cur.s_good.price * cur.num;
+        } else {
+          return pre + cur.s_good.sale_price * cur.num;
+        }
+      }, 0);
+    },
+    sumNum() {
+      return this.checkedArr.reduce((pre, cur) => {
+        return pre + cur.num;
+      }, 0);
+    },
+  },
+  watch: {
+    getShoppingCart: {
+      handler: function () {
+        localStorage.setItem(
+          "getShoppingCart",
+          JSON.stringify(this.getShoppingCart)
+        );
+        this.isAllSeletor = this.getShoppingCart.every((item) => {
+          return item.isSeletor;
+        });
+      },
+      //深度侦听 侦听数组的长度和里面每一个属性的变化
+      deep: true,
+    },
   },
 };
 </script>
@@ -141,66 +231,53 @@ export default {
   }
   main {
     background-color: #f5f5f5;
-    .car {
-      background-color: #fff;
-
-      overflow: hidden;
-      ul {
-        .pro-check {
-          width: 110px;
+    padding: 40px 0;
+  }
+  .foot {
+    padding-left: 20px;
+    box-sizing: border-box;
+    height: 50px;
+    margin-top: 20px;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    .lt {
+      span {
+        color: rgb(255, 103, 0);
+      }
+    }
+    .rt {
+      p {
+        display: inline-block;
+        vertical-align: middle;
+      }
+      span {
+        color: rgb(255, 103, 0);
+        font-size: 30px;
+      }
+      .toPay {
+        vertical-align: middle;
+        display: inline-block;
+        width: 200px;
+        height: 50px;
+        margin-left: 50px;
+        background-color: rgb(255, 103, 0);
+        color: #fff;
+        text-align: center;
+        font-size: 18px;
+        line-height: 50px;
+        &:hover {
+          background-color: rgb(242, 88, 7);
         }
-        .pro-img {
-          width: 120px;
-
-          padding-right: 40px;
-        }
-        .pro-name {
-          width: 380px;
-        }
-        .pro-price {
-          width: 140px;
-        }
-        .pro-num {
-          width: 150px;
-        }
-        .pro-total {
-          width: 120px;
-        }
-        .pro-action {
-          width: 80px;
-          i {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            text-align: center;
-
-            &:hover {
-              background-color: rgb(255, 103, 0);
-              color: #fff;
-            }
-          }
-        }
-        li {
-          overflow: hidden;
-          border-bottom: 1px solid #f5f5f5;
-          padding: 20px;
-          &:nth-child(n + 2) {
-            height: 124px;
-            line-height: 124px;
-          }
-          &:first-child {
-            height: 21px;
-            line-height: 21px;
-            .pro-img {
-              width: 120px;
-              height: 21px;
-              padding-right: 40px;
-            }
-          }
-          img {
-            width: 100%;
-          }
+      }
+      .notoPay {
+        background-color: rgb(224, 224, 224);
+        color: rgb(176, 176, 176);
+        &:hover {
+          background-color: rgb(224, 224, 224);
+          color: rgb(176, 176, 176);
         }
       }
     }

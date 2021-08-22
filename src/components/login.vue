@@ -94,7 +94,6 @@ export default {
           this.$store.state.token = JSON.stringify(res.data.result.token);
           this.$store.state.name = res.data.result.name;
           this.$store.state.pjID = res.data.result.project_id;
-          // alert("登录成功");
           this.$message({
             message: "登录成功",
             type: "success",

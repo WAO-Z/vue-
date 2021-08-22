@@ -1,5 +1,4 @@
 const axios = require('axios');
-
 const _axios = axios.create({
   baseURL: "http://newshopapi.0melon0.cn/",
   timeout: 3000
@@ -15,4 +14,11 @@ _axios.interceptors.request.use(function (config) {
   // Do something with request error
   return Promise.reject(error);
 });
+_axios.interceptors.response.use(function (config) {
+
+  return config;
+}, function (error) {
+  return Promise.reject(error);
+});
+
 module.exports = _axios;

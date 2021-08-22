@@ -1,7 +1,7 @@
 <template>
   <div id="login">
     <el-dialog
-      title="登录"
+      title="注册"
       :visible="this.$store.state.isRegister"
       width="20%"
       center
