@@ -79,7 +79,6 @@ export default {
   methods: {
     login() {
       this.$store.state.centerDialogVisible = true;
-      console.log(this.$store.state.token);
     },
     isRegister() {
       this.$store.state.isRegister = true;
@@ -98,23 +97,26 @@ export default {
       }
     },
     seletorController(isAllSeletor) {
+      console.log(isAllSeletor);
       this.getShoppingCart.forEach((item) => {
         item.isSeletor = isAllSeletor;
       });
-      console.log(this.getShoppingCart[0].isSeletor);
+      this.isAllSeletor = isAllSeletor;
     },
     changeSeletor(nowIndex, nowSeletor) {
       this.getShoppingCart[nowIndex].isSeletor = nowSeletor;
+      this.isAllSeletor = this.getShoppingCart.every((item) => {
+        return item.isSeletor;
+      });
     },
     lalala() {
       this.getShoppingCart[0].isSeletor = true;
-      // console.log(typeof this.getShoppingCart[0].isSeletor);
     },
-    del(id) {
+    del(id, index) {
       this.axios
         .delete(`api/shoppingCart/${id}`)
         .then(() => {
-          location.reload();
+          this.getShoppingCart.splice(index, 1);
         })
         .catch((err) => {
           console.log(err);
@@ -150,8 +152,8 @@ export default {
       .get(`api/shoppingCart?project_id=${this.$store.state.pjID}`)
       .then((res) => {
         this.getShoppingCart = res.data.result;
-        this.getShoppingCart.map((item) => {
-          item.isSeletor = false;
+        this.getShoppingCart.forEach((item) => {
+          item["isSeletor"] = false;
         });
       })
       .catch((err) => {
@@ -165,7 +167,7 @@ export default {
       });
     },
     sumPrice() {
-      return this.checkedArr.reduce((pre, cur) => {
+      return this.getShoppingCart.reduce((pre, cur) => {
         if (cur.s_good.sale_price) {
           return pre + cur.s_good.price * cur.num;
         } else {
@@ -174,30 +176,15 @@ export default {
       }, 0);
     },
     sumNum() {
-      return this.checkedArr.reduce((pre, cur) => {
+      return this.getShoppingCart.reduce((pre, cur) => {
         return pre + cur.num;
       }, 0);
-    },
-  },
-  watch: {
-    getShoppingCart: {
-      handler: function () {
-        localStorage.setItem(
-          "getShoppingCart",
-          JSON.stringify(this.getShoppingCart)
-        );
-        this.isAllSeletor = this.getShoppingCart.every((item) => {
-          return item.isSeletor;
-        });
-      },
-      //深度侦听 侦听数组的长度和里面每一个属性的变化
-      deep: true,
     },
   },
 };
 </script>
 
-<style lang = "scss" scopen>
+<style lang = "scss" scoped>
 #shoppingCart {
   header {
     .box {

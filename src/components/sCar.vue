@@ -20,55 +20,61 @@
             <div class="pro-action fl">操作</div>
           </li>
           <!-- 购物车表头END -->
+          <template v-for="(item, index) in getShoppingCart">
+            <li :key="item.id">
+              <!-- //复选框 -->
+              <div class="pro-check fl">
+                <input
+                  type="checkbox"
+                  :checked="item.isSeletor"
+                  @change="changeSeletor(index, $event)"
+                />
+              </div>
 
-          <li v-for="(item, index) in getShoppingCart" :key="item.id">
-            <!-- //复选框 -->
-            <div class="pro-check fl">
-              <input
-                type="checkbox"
-                :checked="item.isSeletor"
-                @change="changeSeletor(index, $event)"
-              />
-            </div>
+              <!-- //图片 -->
+              <div class="pro-img fl">
+                <img :src="item.s_good.s_goods_photos[0].path" alt="" />
+              </div>
 
-            <!-- //图片 -->
-            <div class="pro-img fl">
-              <img :src="item.s_good.s_goods_photos[0].path" alt="" />
-            </div>
+              <!-- //名称 -->
+              <div class="pro-name fl">
+                {{ item.s_good.name }}
+              </div>
 
-            <!-- //名称 -->
-            <div class="pro-name fl">{{ item.s_good.name }}</div>
+              <!-- //单价 -->
+              <div class="pro-price fl" v-if="item.s_good.sale_price">
+                {{ item.s_good.sale_price.toFixed(2) }} 元
+              </div>
+              <div class="pro-price fl" v-if="!item.s_good.sale_price">
+                {{ item.s_good.price.toFixed(2) }} 元
+              </div>
 
-            <!-- //单价 -->
-            <div class="pro-price fl" v-if="item.s_good.sale_price">
-              {{ item.s_good.sale_price.toFixed(2) }} 元
-            </div>
-            <div class="pro-price fl" v-if="!item.s_good.sale_price">
-              {{ item.s_good.price.toFixed(2) }} 元
-            </div>
+              <!-- //数量 -->
+              <div class="pro-num fl">
+                <button @click="subtract(item.id, item.num, index)">-</button>
+                {{ item.num }}
+                <button @click="add(item.id, item.num, index)">+</button>
+              </div>
 
-            <!-- //数量 -->
-            <div class="pro-num fl">
-              <button @click="subtract(item.id, item.num, index)">-</button>
-              {{ item.num }}
-              <button @click="add(item.id, item.num, index)">+</button>
-            </div>
+              <!-- //小计 -->
+              <div class="pro-total fl" v-if="item.s_good.sale_price">
+                {{ (item.num * item.s_good.sale_price).toFixed(2) }} 元
+              </div>
+              <div class="pro-total fl" v-if="!item.s_good.sale_price">
+                {{ (item.num * item.s_good.price).toFixed(2) }} 元
+              </div>
 
-            <!-- //小计 -->
-            <div class="pro-total fl" v-if="item.s_good.sale_price">
-              {{ (item.num * item.s_good.sale_price).toFixed(2) }} 元
-            </div>
-            <div class="pro-total fl" v-if="!item.s_good.sale_price">
-              {{ (item.num * item.s_good.price).toFixed(2) }} 元
-            </div>
-
-            <!-- //删除 -->
-            <div class="pro-action fl">
-              <el-popconfirm title="确定删除吗？" @confirm="del(item.id)">
-                <i class="el-icon-close" slot="reference"></i>
-              </el-popconfirm>
-            </div>
-          </li>
+              <!-- //删除 -->
+              <div class="pro-action fl">
+                <el-popconfirm
+                  title="确定删除吗？"
+                  @confirm="del(item.id, index)"
+                >
+                  <i class="el-icon-close" slot="reference"></i>
+                </el-popconfirm>
+              </div>
+            </li>
+          </template>
         </ul>
       </div>
     </div>
@@ -92,13 +98,14 @@ export default {
   },
   methods: {
     seletorController(e) {
+      console.log(e.target.checked);
       this.$emit("seletorController", e.target.checked);
     },
     changeSeletor(nowIndex, e) {
       this.$emit("changeSeletor", nowIndex, e.target.checked);
     },
-    del(id) {
-      this.$emit("del", id);
+    del(id, index) {
+      this.$emit("del", id, index);
     },
     add(id, num, index) {
       this.$emit("add", id, num, index);
