@@ -20,12 +20,6 @@
             <span @click="isRegister" v-if="!this.$store.state.token"
               >注册</span
             >
-            <!-- <span
-              @click="loginOut"
-              v-if="this.$store.state.token"
-              class="user"
-              >{{ this.$store.state.name }}</span
-            > -->
             <el-dropdown
               @command="handleCommand"
               v-if="this.$store.state.token"
@@ -99,7 +93,6 @@ export default {
       this.axios
         .get(`api/shoppingCart?project_id=${this.$store.state.pjID}`)
         .then(() => {
-          // this.$store.state.getShoppingCart = res.data.result;
           this.$router.push("/shoppingCart");
         })
         .catch((err) => {
@@ -117,7 +110,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      // this.$router.replace(`/allproduct/54`);
     },
     homeAp() {
       this.axios
@@ -129,7 +121,6 @@ export default {
         .catch((err) => {
           console.log(err);
         });
-      // this.$router.replace(`/allproduct/115`);
     },
     search() {
       this.axios
@@ -155,7 +146,6 @@ export default {
     line-height: 30px;
     background-color: rgb(51, 51, 51);
     font-size: 12px;
-    /* box-shadow: 0 0 5px 5px rgb(51, 51, 51); */
     .top-header {
       display: flex;
       justify-content: space-between;
@@ -239,9 +229,6 @@ export default {
       position: relative;
       width: 200px;
       height: 30px;
-
-      /* border: 1px solid #c1c1c1; */
-
       box-shadow: 0 0 5px #c1c1c1;
       input {
         border: none;

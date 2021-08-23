@@ -168,11 +168,11 @@ export default {
     },
     sumPrice() {
       return this.getShoppingCart.reduce((pre, cur) => {
-        if (cur.s_good.sale_price) {
-          return pre + cur.s_good.price * cur.num;
-        } else {
-          return pre + cur.s_good.sale_price * cur.num;
-        }
+        // if (cur.s_good.sale_price) {
+        return pre + cur.s_good.price * cur.num;
+        // } else {
+        // return pre + cur.s_good.sale_price * cur.num;
+        // }
       }, 0);
     },
     sumNum() {

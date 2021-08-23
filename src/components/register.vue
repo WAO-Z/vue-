@@ -15,7 +15,7 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="昵称" prop="pass">
+        <el-form-item label="昵称" prop="name">
           <el-input
             type="text"
             v-model="ruleForm.name"
@@ -67,25 +67,28 @@ export default {
         callback();
       }
     };
-    var validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.ruleForm.pass) {
-        callback(new Error("两次输入密码不一致!"));
-      } else {
-        callback();
+
+    var validateName = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("昵称不能为空"));
       }
+      setTimeout(() => {
+        if (!Number.isInteger(value)) {
+          callback(new Error("请输入数字值"));
+        } else {
+          callback();
+        }
+      }, 1000);
     };
     return {
       ruleForm: {
         pass: "",
-        checkPass: "",
         account: "",
         name: "",
       },
       rules: {
         pass: [{ validator: validatePass, trigger: "blur" }],
-        checkPass: [{ validator: validatePass2, trigger: "blur" }],
+        name: [{ validator: validateName, trigger: "blur" }],
         account: [{ validator: checkAccount, trigger: "blur" }],
       },
     };
@@ -99,7 +102,6 @@ export default {
           password: this.ruleForm.pass,
         })
         .then(() => {
-          //   alert("注册成功");
           this.$message({
             message: "注册成功",
             type: "success",
