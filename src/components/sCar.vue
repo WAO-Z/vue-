@@ -68,7 +68,7 @@
               <div class="pro-action fl">
                 <el-popconfirm
                   title="确定删除吗？"
-                  @confirm="del(item.id, index)"
+                  @confirm="del(item.id, index, item.isSeletor)"
                 >
                   <i class="el-icon-close" slot="reference"></i>
                 </el-popconfirm>
@@ -98,14 +98,13 @@ export default {
   },
   methods: {
     seletorController(e) {
-      console.log(e.target.checked);
       this.$emit("seletorController", e.target.checked);
     },
     changeSeletor(nowIndex, e) {
       this.$emit("changeSeletor", nowIndex, e.target.checked);
     },
-    del(id, index) {
-      this.$emit("del", id, index);
+    del(id, index, isSeletor) {
+      this.$emit("del", id, index, isSeletor);
     },
     add(id, num, index) {
       this.$emit("add", id, num, index);

@@ -46,10 +46,10 @@
         <div class="nav fl">
           <span @click="phone">DA米手机</span>
           <span @click="homeAp">家电</span>
-          <span>笔记本</span>
+          <!-- <span>笔记本</span>
           <span>电视</span>
           <span>平板电脑</span>
-          <span>智能硬件</span>
+          <span>智能硬件</span> -->
         </div>
         <div class="search fr">
           <input type="text" v-model="searchVal" />

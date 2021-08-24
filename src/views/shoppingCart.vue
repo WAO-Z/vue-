@@ -7,7 +7,7 @@
             <img src="@/assets/imges/logo-mi2.png" alt="" />
           </router-link>
         </div>
-        <h3 class="fl" @click="lalala">我的购物车</h3>
+        <h3 class="fl">我的购物车</h3>
         <div class="rt fr">
           <span @click="login" v-if="!this.$store.state.token">登录</span>
           <span class="sep" v-if="!this.$store.state.token">|</span>
@@ -39,8 +39,7 @@
       <div class="foot w">
         <div class="lt">
           <p>
-            共 <span>{{ getShoppingCart.length }}</span> 件商品，已选择
-            <span>{{ sumNum }}</span
+            共 <span>{{ allNum }}</span> 件商品，已选择 <span>{{ sumNum }}</span
             >件
           </p>
         </div>
@@ -73,6 +72,7 @@ export default {
   data: function () {
     return {
       getShoppingCart: [],
+      shoppingCartArr: [],
       isAllSeletor: false,
     };
   },
@@ -97,26 +97,40 @@ export default {
       }
     },
     seletorController(isAllSeletor) {
-      console.log(isAllSeletor);
       this.getShoppingCart.forEach((item) => {
         item.isSeletor = isAllSeletor;
       });
       this.isAllSeletor = isAllSeletor;
+      if (isAllSeletor) {
+        this.shoppingCartArr = this.getShoppingCart;
+      } else {
+        this.shoppingCartArr = [];
+      }
     },
     changeSeletor(nowIndex, nowSeletor) {
       this.getShoppingCart[nowIndex].isSeletor = nowSeletor;
+      if (this.getShoppingCart[nowIndex].isSeletor) {
+        this.shoppingCartArr.push(this.getShoppingCart[nowIndex]);
+      } else {
+        this.shoppingCartArr = this.getShoppingCart.filter((index) => {
+          return index != nowIndex;
+        });
+      }
       this.isAllSeletor = this.getShoppingCart.every((item) => {
         return item.isSeletor;
       });
     },
-    lalala() {
-      this.getShoppingCart[0].isSeletor = true;
-    },
+
     del(id, index) {
       this.axios
         .delete(`api/shoppingCart/${id}`)
         .then(() => {
           this.getShoppingCart.splice(index, 1);
+          // if (isSeletor) {
+          //   this.shoppingCartArr.filter((item) => {
+          //     return !item.id;
+          //   });
+          // }
         })
         .catch((err) => {
           console.log(err);
@@ -161,21 +175,17 @@ export default {
       });
   },
   computed: {
-    checkedArr() {
-      return this.getShoppingCart.filter((item) => {
-        return item.isSeletor;
-      });
-    },
     sumPrice() {
-      return this.getShoppingCart.reduce((pre, cur) => {
-        // if (cur.s_good.sale_price) {
-        return pre + cur.s_good.price * cur.num;
-        // } else {
-        // return pre + cur.s_good.sale_price * cur.num;
-        // }
+      return this.shoppingCartArr.reduce((pre, cur) => {
+        return pre + cur.s_good.sale_price * cur.num;
       }, 0);
     },
     sumNum() {
+      return this.shoppingCartArr.reduce((pre, cur) => {
+        return pre + cur.num;
+      }, 0);
+    },
+    allNum() {
       return this.getShoppingCart.reduce((pre, cur) => {
         return pre + cur.num;
       }, 0);
