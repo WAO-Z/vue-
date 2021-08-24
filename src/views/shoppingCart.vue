@@ -112,25 +112,26 @@ export default {
       if (this.getShoppingCart[nowIndex].isSeletor) {
         this.shoppingCartArr.push(this.getShoppingCart[nowIndex]);
       } else {
-        this.shoppingCartArr = this.getShoppingCart.filter((index) => {
-          return index != nowIndex;
+        this.shoppingCartArr = this.getShoppingCart.filter((item) => {
+          return item.isSeletor == true;
         });
       }
       this.isAllSeletor = this.getShoppingCart.every((item) => {
         return item.isSeletor;
       });
+      console.log(this.shoppingCartArr);
     },
 
-    del(id, index) {
+    del(id, index, isSeletor) {
       this.axios
         .delete(`api/shoppingCart/${id}`)
         .then(() => {
           this.getShoppingCart.splice(index, 1);
-          // if (isSeletor) {
-          //   this.shoppingCartArr.filter((item) => {
-          //     return !item.id;
-          //   });
-          // }
+          if (isSeletor) {
+            this.shoppingCartArr = this.shoppingCartArr.filter((item) => {
+              return item.id != id;
+            });
+          }
         })
         .catch((err) => {
           console.log(err);
