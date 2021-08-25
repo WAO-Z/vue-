@@ -50,8 +50,11 @@ export default {
         return callback(new Error("账号不能为空"));
       }
       setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error("请输入数字值"));
+        let pnoneNum =
+          /^[1](([3][0-9])|([4][0,1,4-9])|([5][0-3,5-9])|([6][2,5,6,7])|([7][0-8])|([8][0-9])|([9][0-3,5-9]))[0-9]{8}$/;
+
+        if (!pnoneNum.test(value)) {
+          callback(new Error("格式错误"));
         } else {
           callback();
         }
@@ -73,11 +76,7 @@ export default {
         return callback(new Error("昵称不能为空"));
       }
       setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error("请输入数字值"));
-        } else {
-          callback();
-        }
+        callback();
       }, 1000);
     };
     return {
@@ -109,6 +108,7 @@ export default {
           this.$store.state.isRegister = false;
         })
         .catch((err) => {
+          alert("手机号已注册");
           console.log(err);
         });
     },

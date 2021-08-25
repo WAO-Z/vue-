@@ -16,7 +16,11 @@
         class="demo-ruleForm"
       >
         <el-form-item label="手机号码" prop="account">
-          <el-input v-model.number="ruleForm.account" maxlength="11"></el-input>
+          <el-input
+            v-model.number="ruleForm.account"
+            maxlength="11"
+            placeholder="13888888888 密码：123"
+          ></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="pass">
           <el-input
