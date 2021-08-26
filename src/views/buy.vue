@@ -1,5 +1,6 @@
 <template>
   <div id="buy">
+    <top></top>
     <div class="main w">
       <div class="lt">
         <div class="block">
@@ -78,7 +79,11 @@
 </template>
 
 <script>
+import top from "@/components/top.vue";
 export default {
+  components: {
+    top,
+  },
   data: function () {
     return {
       productArr: {},

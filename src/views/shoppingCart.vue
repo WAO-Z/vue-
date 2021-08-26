@@ -48,7 +48,7 @@
             合计：<span>{{ sumPrice }}</span
             >元
           </p>
-          <span class="toPay">去结算</span>
+          <span class="toPay" @click="toAccount">去结算</span>
         </div>
         <div class="rt" v-if="!getShoppingCart.length">
           <p>
@@ -161,6 +161,12 @@ export default {
           });
       }
     },
+    toAccount() {
+      if (this.shoppingCartArr.length) {
+        this.$store.state.shoppingCartArr = this.shoppingCartArr;
+        this.$router.push("/checkOut");
+      }
+    },
   },
   created() {
     this.axios
@@ -266,6 +272,7 @@ export default {
         text-align: center;
         font-size: 18px;
         line-height: 50px;
+        cursor: pointer;
         &:hover {
           background-color: rgb(242, 88, 7);
         }

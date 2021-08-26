@@ -1,26 +1,26 @@
 <template>
   <div id="dsdsd">
     <div class="nav w">
-      <a href="#" target="_blank"
+      <a href="https://www.baidu.com/" target="_blank"
         ><svg-icon iconname="icon-buoumaotubiao46" class="icon"> </svg-icon
         >预约维修</a
       >
       <span class="sep">|</span>
-      <a href="#" target="_blank"
+      <a href="https://www.baidu.com/" target="_blank"
         ><svg-icon iconname="icon-7tiantuihuanhuo" class="icon"> </svg-icon
         >7天无理由退货</a
       >
       <span class="sep">|</span>
-      <a href="#" target="_blank"
+      <a href="https://www.baidu.com/" target="_blank"
         ><svg-icon iconname="icon-15tianwuliyoutuihuo" class="icon"> </svg-icon
         >15天免费换货</a
       >
       <span class="sep">|</span>
-      <a href="#" target="_blank"
+      <a href="https://www.baidu.com/" target="_blank"
         ><svg-icon iconname="icon-liwu" class="icon"> </svg-icon>满60包邮</a
       >
       <span class="sep">|</span>
-      <a href="#" target="_blank"
+      <a href="https://www.baidu.com/" target="_blank"
         ><svg-icon iconname="icon-weizhi" class="icon"> </svg-icon
         >520余家售后网点</a
       >

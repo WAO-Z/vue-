@@ -3,7 +3,7 @@
     <el-dialog
       title="注册"
       :visible="this.$store.state.isRegister"
-      width="20%"
+      width="350px"
       center
       :show-close="false"
     >

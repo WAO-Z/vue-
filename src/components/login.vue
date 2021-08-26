@@ -3,7 +3,7 @@
     <el-dialog
       title="登录"
       :visible="this.$store.state.centerDialogVisible"
-      width="20%"
+      width="350px"
       center
       :show-close="false"
     >

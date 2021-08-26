@@ -1,5 +1,6 @@
 <template>
   <div id="index">
+    <top></top>
     <carouse></carouse>
     <main>
       <div class="recommend-products w">
@@ -29,7 +30,7 @@
 import carouse from "../components/carouse.vue";
 import product from "../components/product.vue";
 import homeAp from "../components/homeAp.vue";
-
+import top from "@/components/top.vue";
 export default {
   data: function () {
     return {
@@ -40,6 +41,7 @@ export default {
     carouse,
     product,
     homeAp,
+    top,
   },
   methods: {
     advertising() {

@@ -50,6 +50,21 @@ const routes = [
     }
 
   },
+  {
+    path: '/checkOut',
+    name: 'checkOut',
+    component: () => import('../views/checkOut.vue'),
+    meta: {
+      title: "结算页"
+    },
+
+  },
+  {
+    path: '*',
+
+    redirect: "/"
+
+  },
 
 
 ]
@@ -58,6 +73,9 @@ const router = new VueRouter({
   routes
 })
 router.beforeEach((to, from, next) => {
+  if (to.name == 'checkOut' && !sessionStorage.getItem('token')) {
+    next('/')
+  }
   document.title = to.meta.title;
   next();
 })

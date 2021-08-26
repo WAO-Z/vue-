@@ -124,6 +124,9 @@ export default {
   ul {
     .pro-check {
       width: 110px;
+      input {
+        cursor: pointer;
+      }
     }
     .pro-img {
       width: 120px;
@@ -143,6 +146,7 @@ export default {
       width: 150px;
 
       button {
+        cursor: pointer;
         width: 20px;
         height: 20px;
         background-color: #fff;
@@ -160,6 +164,7 @@ export default {
     .pro-action {
       width: 80px;
       text-align: center;
+      cursor: pointer;
       i {
         display: inline-block;
         width: 20px;

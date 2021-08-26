@@ -2,7 +2,7 @@
   <div id="app">
     <login></login>
     <register></register>
-    <top v-if="$route.name != 'shoppingCart'"></top>
+    <!-- <top v-if="$route.name != 'shoppingCart'"></top> -->
     <router-view></router-view>
     <!-- <footer></footer> -->
     <dsdsd></dsdsd>
@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import top from "./components/top.vue";
+// import top from "./components/top.vue";
 import dsdsd from "./components/dsdsd.vue";
 import login from "./components/login.vue";
 import register from "./components/register.vue";
@@ -20,7 +20,7 @@ export default {
     return {};
   },
   components: {
-    top,
+    // top,
     dsdsd,
     login,
     register,

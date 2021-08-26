@@ -1,42 +1,38 @@
 <template>
   <div id="allproduct">
-    <div class="productBox w">
-      <div class="title">
-        <span>{{ this.$route.query.type }}</span>
-      </div>
-      <div class="products">
-        <template v-for="(item, index) in productArr">
-          <div class="product" :key="index" @click="intoBuy(item.id)">
-            <div class="img">
-              <img :src="item.s_goods_photos[0].path" alt="" />
+    <top></top>
+    <div class="main">
+      <div class="productBox w">
+        <div class="title">
+          <span>{{ this.$route.query.type }}</span>
+        </div>
+        <div class="products">
+          <template v-for="(item, index) in productArr">
+            <div class="product" :key="index" @click="intoBuy(item.id)">
+              <div class="img">
+                <img :src="item.s_goods_photos[0].path" alt="" />
+              </div>
+              <h6>{{ item.name }}</h6>
+              <p>{{ item.desc.split("/")[0] }}</p>
+              <span>{{ item.price }}元起</span>
             </div>
-            <h6>{{ item.name }}</h6>
-            <p>{{ item.desc.split("/")[0] }}</p>
-            <span>{{ item.price }}元起</span>
-          </div>
-        </template>
+          </template>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import top from "@/components/top.vue";
 export default {
-  data: function () {
-    return {
-      // productArr: [],
-    };
+  components: {
+    top,
   },
-  // created() {
-  //   this.axios
-  //     .get(`/api/goods?project_id=18&classify_id=${this.$route.params.type}`)
-  //     .then((res) => {
-  //       this.productArr = res.data.result.rows;
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // },
+  data: function () {
+    return {};
+  },
+
   methods: {
     intoBuy(id) {
       this.$router.push(`/buy/${id}`);
@@ -52,11 +48,12 @@ export default {
 
 <style lang = "scss" scoped>
 #allproduct {
-  width: 100%;
-  background-color: rgb(245, 245, 245);
-  padding-top: 20px;
-  padding-bottom: 20px;
-
+  .main {
+    width: 100%;
+    background-color: rgb(245, 245, 245);
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
   .productBox {
     .title {
       margin: 0 0 10px;

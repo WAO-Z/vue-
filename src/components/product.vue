@@ -3,7 +3,10 @@
     <div class="productBox w">
       <div class="title">
         <span>手机</span>
-        <div @click="more"><span>查看更多</span> <i> &gt;</i></div>
+        <div @click="more" class="hover">
+          <span>查看更多</span>
+          <i> <svg-icon iconname="icon-jiantou" class="icon"> </svg-icon></i>
+        </div>
       </div>
       <div class="products">
         <template v-for="(item, index) in productArr">
@@ -71,10 +74,16 @@ export default {
       justify-content: space-between;
       margin: 0 0 10px;
       font-size: 22px;
-      div {
+      .hover {
         cursor: pointer;
         span {
-          font-size: 14px;
+          font-size: 16px;
+        }
+        &:hover {
+          color: rgb(255, 103, 1);
+          i {
+            background-color: rgb(255, 103, 1);
+          }
         }
       }
       i {
@@ -87,6 +96,7 @@ export default {
         background-color: rgb(87, 81, 81);
         text-align: center;
         color: #fff;
+        margin-left: 10px;
       }
     }
     .products {

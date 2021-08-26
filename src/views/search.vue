@@ -1,20 +1,23 @@
 <template>
   <div id="search">
-    <div class="productBox w">
-      <div class="title">
-        <span>搜索关键字：{{ this.$route.params.name }}</span>
-      </div>
-      <div class="products">
-        <template v-for="(item, index) in searchArr">
-          <div class="product" :key="index" @click="intoBuy(item.id)">
-            <div class="img">
-              <img :src="item.s_goods_photos[0].path" alt="" />
+    <top></top>
+    <div class="main">
+      <div class="productBox w">
+        <div class="title">
+          <span>搜索关键字：{{ this.$route.params.name }}</span>
+        </div>
+        <div class="products">
+          <template v-for="(item, index) in searchArr">
+            <div class="product" :key="index" @click="intoBuy(item.id)">
+              <div class="img">
+                <img :src="item.s_goods_photos[0].path" alt="" />
+              </div>
+              <h6>{{ item.name }}</h6>
+              <p>{{ item.desc.split("/")[0] }}</p>
+              <span>{{ item.price }}元起</span>
             </div>
-            <h6>{{ item.name }}</h6>
-            <p>{{ item.desc.split("/")[0] }}</p>
-            <span>{{ item.price }}元起</span>
-          </div>
-        </template>
+          </template>
+        </div>
       </div>
     </div>
   </div>
@@ -22,7 +25,11 @@
 
 <script>
 // import { mapState } from "vuex";
+import top from "@/components/top.vue";
 export default {
+  components: {
+    top,
+  },
   data: function () {
     return {};
   },
@@ -43,11 +50,12 @@ export default {
 
 <style lang = "scss" scoped>
 #search {
-  width: 100%;
-  background-color: rgb(245, 245, 245);
-  padding-top: 20px;
-  padding-bottom: 20px;
-
+  .main {
+    width: 100%;
+    background-color: rgb(245, 245, 245);
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
   .productBox {
     .title {
       margin: 0 0 10px;

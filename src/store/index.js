@@ -16,7 +16,8 @@ export default new Vuex.Store({
     pjID: "",
     searchArr: [],
     productList: [],
-    getShoppingCart: []
+    getShoppingCart: [],
+    shoppingCartArr: []
   },
   mutations: {
     getSearchArr(state, data) {

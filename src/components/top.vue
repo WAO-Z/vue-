@@ -6,13 +6,13 @@
           <div class="lt">
             <a href="//www.mi.com/index.html" target="_blank">小米商城</a>
             <span class="sep">|</span>
-            <a href="//www.miui.com/" target="_blank">MIUI</a>
+            <a href="https://www.baidu.com/" target="_blank">MIUI</a>
             <span class="sep">|</span>
-            <a href="//iot.mi.com" target="_blank">IoT</a>
+            <a href="https://www.baidu.com/" target="_blank">IoT</a>
             <span class="sep">|</span>
-            <a href="//i.mi.com/" target="_blank">云服务</a>
+            <a href="https://www.baidu.com/" target="_blank">云服务</a>
             <span class="sep">|</span>
-            <a href="//airstar.com/home" target="_blank">天星数科</a>
+            <a href="https://www.baidu.com/" target="_blank">天星数科</a>
           </div>
           <div class="rt">
             <span @click="login" v-if="!this.$store.state.token">登录</span>
@@ -52,7 +52,7 @@
           <span>智能硬件</span> -->
         </div>
         <div class="search fr">
-          <input type="text" v-model="searchVal" />
+          <input type="text" v-model="searchVal" @keypress.enter="search" />
           <div class="ico" @click="search">
             <svg-icon iconname="icon-sousuo" class="icon"> </svg-icon>
           </div>
@@ -140,7 +140,7 @@ export default {
 <style lang = "scss" scoped>
 #top {
   color: rgb(176, 176, 176);
-  margin-bottom: 50px;
+  /* margin-bottom: 50px; */
   .bg {
     height: 30px;
     line-height: 30px;
@@ -208,6 +208,7 @@ export default {
     font-size: 16px;
     color: #333;
     text-shadow: 0 5px 15px rgb(51, 51, 51);
+    overflow: hidden;
     img {
       width: 50px;
       margin-right: 100px;
@@ -226,22 +227,25 @@ export default {
       }
     }
     .search {
-      position: relative;
       width: 200px;
-      height: 30px;
-      box-shadow: 0 0 5px #c1c1c1;
+      border: 1px solid #c1c1c1;
+      /* box-shadow: 0 0 5px #c1c1c1; */
+      display: flex;
       input {
         border: none;
         outline: none;
-        height: 100%;
+        width: 160px;
+        display: inline-block;
+        vertical-align: text-top;
       }
       .ico {
         display: inline-block;
         font-size: 20px;
-
-        width: 30px;
-        height: 100%;
+        width: 40px;
+        height: 40px;
         border-left: 1px solid #c1c1c1;
+        text-align: center;
+        line-height: 40px;
         &:hover {
           background-color: rgb(228, 103, 20);
           color: #fff;
