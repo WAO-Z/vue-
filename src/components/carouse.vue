@@ -8,9 +8,13 @@
       <transition :name="isDir ? 'left' : 'right'">
         <template v-for="(item, i) in carouselArr.slice(0, 3)">
           <div :key="i" v-if="index == i" class="img">
-            <a :href="item.hyperlink" :key="index" target="_blank">
+            <div
+              class="a-img"
+              :key="index"
+              @click="toHyperLink(item.hyperlink)"
+            >
               <img :src="item.s_photos[0].path" alt="" />
-            </a>
+            </div>
           </div>
         </template>
       </transition>
@@ -70,6 +74,9 @@ export default {
     setInterval() {
       this.autoPlay();
     },
+    toHyperLink(a) {
+      this.$router.push(a);
+    },
   },
   created() {
     this.axios
@@ -105,6 +112,7 @@ export default {
     > .img {
       position: absolute;
       width: 1920px;
+      cursor: pointer;
       // height: 100%;
 
       font-size: 100px;

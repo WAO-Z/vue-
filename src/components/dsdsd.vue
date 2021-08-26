@@ -110,7 +110,7 @@ export default {};
   }
   .about {
     padding: 40px 0;
-
+    overflow: hidden;
     dl {
       width: 160px;
 

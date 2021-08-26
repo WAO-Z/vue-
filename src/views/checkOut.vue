@@ -31,11 +31,11 @@
         <div class="location">
           <ul>
             <li>
-              <div class="name">陈同学</div>
+              <div class="name">奥术大师</div>
               <div class="phone">123123123123</div>
               <div class="site">
-                广东 广州市 白云区 安肃镇<br />
-                阿斯达岁的奥术大师大大所大所多对方水电费孙菲菲
+                广东 广州市 天河区 安肃镇<br />
+                阿尔萨斯带孝子
               </div>
             </li>
             <li class="add">
@@ -48,12 +48,16 @@
         </div>
         <h3>商品及优惠券</h3>
         <div class="productList">
-          <div class="product">
-            <div class="img"><img src="" alt="" /></div>
-            <div class="name">Redmi k30 5G</div>
-            <div class="num">2599x1</div>
-            <div class="price">2599元</div>
-          </div>
+          <template v-for="(item, index) in shoppingCartArr">
+            <div :key="index" class="product">
+              <div class="img">
+                <img :src="item.s_good.s_goods_photos[0].path" alt="" />
+              </div>
+              <div class="name">{{ item.s_good.name }} x {{ item.num }}</div>
+              <div class="num">{{ item.s_good.price }} x {{ item.num }}</div>
+              <div class="price">{{ item.s_good.price * item.num }} 元</div>
+            </div>
+          </template>
         </div>
 
         <div class="distribution">
@@ -68,11 +72,11 @@
           <div class="rt fr">
             <div class="info">
               <span class="lt">商品件数：</span>
-              <span class="fontOrg">1件</span>
+              <span class="fontOrg">{{ sumNum }} 件</span>
             </div>
             <div class="info">
               <span class="lt">商品总价：</span>
-              <span class="fontOrg">1232323元</span>
+              <span class="fontOrg">{{ sumPriceOri }} 元</span>
             </div>
             <div class="info">
               <span class="lt">活动优惠：</span>
@@ -80,7 +84,7 @@
             </div>
             <div class="info">
               <span class="lt">优惠券抵扣：</span>
-              <span class="fontOrg">0元</span>
+              <span class="fontOrg">{{ sumPriceOri - sumPrice }} 元</span>
             </div>
             <div class="info">
               <span class="lt">运费：</span>
@@ -89,14 +93,14 @@
             <div class="info">
               <span class="lt">应付总额：</span>
               <span class="fontOrg">
-                <span class="totalSum">2323</span> 元</span
+                <span class="totalSum">{{ sumPrice }}</span> 元</span
               >
             </div>
           </div>
         </div>
         <div class="section-bar">
           <div class="btn">
-            <div class="btn-account">去结算</div>
+            <div class="btn-account" @click="toOrder">去结算</div>
             <router-link to="/shoppingCart" class="btn-return"
               >返回购物车</router-link
             >
@@ -111,9 +115,7 @@
 export default {
   data: function () {
     return {
-      getShoppingCart: [],
-      shoppingCartArr: [],
-      isAllSeletor: false,
+      shoppingCartArr: this.$store.state.shoppingCartArr,
     };
   },
   methods: {
@@ -136,6 +138,29 @@ export default {
         this.$router.replace("/");
       }
     },
+    toOrder() {
+      this.$router.replace("/order");
+    },
+  },
+  computed: {
+    sumPrice() {
+      return this.shoppingCartArr.reduce((pre, cur) => {
+        return pre + cur.s_good.sale_price * cur.num;
+      }, 0);
+    },
+    sumPriceOri() {
+      return this.shoppingCartArr.reduce((pre, cur) => {
+        return pre + cur.s_good.price * cur.num;
+      }, 0);
+    },
+    sumNum() {
+      return this.shoppingCartArr.reduce((pre, cur) => {
+        return pre + cur.num;
+      }, 0);
+    },
+  },
+  mounted() {
+    console.log(this.shoppingCartArr);
   },
 };
 </script>
@@ -226,6 +251,9 @@ export default {
             width: 30px;
             height: 30px;
             margin-right: 10px;
+            img {
+              width: 100%;
+            }
           }
           .name {
             width: 750px;
@@ -316,6 +344,7 @@ export default {
             margin-left: 30px;
             display: inline-block;
             float: right;
+            cursor: pointer;
           }
         }
       }

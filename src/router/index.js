@@ -60,6 +60,15 @@ const routes = [
 
   },
   {
+    path: '/order',
+    name: 'order',
+    component: () => import('../views/order.vue'),
+    meta: {
+      title: "订单页"
+    },
+
+  },
+  {
     path: '*',
 
     redirect: "/"

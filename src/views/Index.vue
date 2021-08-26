@@ -5,9 +5,9 @@
     <main>
       <div class="recommend-products w">
         <template v-for="(item, index) in carouselArr.slice(3)">
-          <a :href="item.hyperlink" :key="index" target="_blank"
-            ><img :src="item.s_photos[0].path" alt=""
-          /></a>
+          <div :key="index" @click="toHyperLink(item.hyperlink)">
+            <img :src="item.s_photos[0].path" alt="" />
+          </div>
         </template>
       </div>
       <div class="recommend-product">
@@ -47,6 +47,9 @@ export default {
     advertising() {
       this.$router.push("buy/648");
     },
+    toHyperLink(a) {
+      this.$router.push(a);
+    },
   },
   created() {
     this.axios
@@ -71,6 +74,7 @@ export default {
       img {
         width: 380px;
         transition: all 0.5s;
+        cursor: pointer;
         &:hover {
           box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
           transform: translateY(-2px);
