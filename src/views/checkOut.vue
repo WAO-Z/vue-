@@ -53,7 +53,7 @@
               <div class="img">
                 <img :src="item.s_good.s_goods_photos[0].path" alt="" />
               </div>
-              <div class="name">{{ item.s_good.name }} x {{ item.num }}</div>
+              <div class="name">{{ item.s_good.name }}</div>
               <div class="num">{{ item.s_good.price }} x {{ item.num }}</div>
               <div class="price">{{ item.s_good.price * item.num }} 元</div>
             </div>
@@ -80,7 +80,7 @@
             </div>
             <div class="info">
               <span class="lt">活动优惠：</span>
-              <span class="fontOrg">0元</span>
+              <span class="fontOrg">0 元</span>
             </div>
             <div class="info">
               <span class="lt">优惠券抵扣：</span>
@@ -88,7 +88,7 @@
             </div>
             <div class="info">
               <span class="lt">运费：</span>
-              <span class="fontOrg">0元</span>
+              <span class="fontOrg">0 元</span>
             </div>
             <div class="info">
               <span class="lt">应付总额：</span>
@@ -139,7 +139,27 @@ export default {
       }
     },
     toOrder() {
-      this.$router.replace("/order");
+      this.axios
+        // .post(`api/order`, {
+        //   addr_id: 1,
+        //   goods_info: [{ id: 1 }, { num: 1 }],
+        // })
+        .get(`api/order`)
+        .then((res) => {
+          console.log(res);
+          this.$message({
+            message: res.data.msg,
+            type: "success",
+          });
+          this.$router.replace("/order");
+        })
+        .catch((err) => {
+          console.log(err);
+          this.$message({
+            message: "请求延迟",
+            type: "error",
+          });
+        });
     },
   },
   computed: {
