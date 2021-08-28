@@ -80,11 +80,11 @@
             </div>
             <div class="info">
               <span class="lt">活动优惠：</span>
-              <span class="fontOrg">0 元</span>
+              <span class="fontOrg">{{ sumPriceOri - sumPrice }} 元</span>
             </div>
             <div class="info">
               <span class="lt">优惠券抵扣：</span>
-              <span class="fontOrg">{{ sumPriceOri - sumPrice }} 元</span>
+              <span class="fontOrg">0 元</span>
             </div>
             <div class="info">
               <span class="lt">运费：</span>
@@ -116,6 +116,7 @@ export default {
   data: function () {
     return {
       shoppingCartArr: this.$store.state.shoppingCartArr,
+      goodsInfo: [],
     };
   },
   methods: {
@@ -140,13 +141,11 @@ export default {
     },
     toOrder() {
       this.axios
-        // .post(`api/order`, {
-        //   addr_id: 1,
-        //   goods_info: [{ id: 1 }, { num: 1 }],
-        // })
-        .get(`api/order`)
+        .post(`api/order`, {
+          addr_id: 1,
+          goods_info: this.goodsInfo,
+        })
         .then((res) => {
-          console.log(res);
           this.$message({
             message: res.data.msg,
             type: "success",
@@ -180,7 +179,11 @@ export default {
     },
   },
   mounted() {
-    console.log(this.shoppingCartArr);
+    this.shoppingCartArr.forEach((item) => {
+      let obj = { id: item.id, num: item.num };
+      this.goodsInfo.push(obj);
+    });
+    console.log(this.goodsInfo);
   },
 };
 </script>

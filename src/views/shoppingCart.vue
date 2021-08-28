@@ -119,7 +119,6 @@ export default {
       this.isAllSeletor = this.getShoppingCart.every((item) => {
         return item.isSeletor;
       });
-      console.log(this.shoppingCartArr);
     },
 
     del(id, index, isSeletor) {
