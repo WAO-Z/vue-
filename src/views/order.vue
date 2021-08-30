@@ -24,20 +24,28 @@
                 </div>
                 <div class="rt">
                   <span>实付金额：</span>
-                  <span class="price">{{}} </span>
+                  <span class="price"> {{ item.total_price }} </span>
                   <span>元</span>
                 </div>
               </div>
+              <el-popconfirm
+                title="确定删除吗？"
+                @confirm="del(item.id, index)"
+              >
+                <!-- <svg-icon iconname="icon-shanchu" class="icon"> </svg-icon> -->
+                <i class="el-icon-close" slot="reference"></i>
+              </el-popconfirm>
             </div>
+
             <div class="dn">
-              <template v-for="(a, i) in orderProductArr[0]">
+              <template v-for="(a, i) in orderProductArr[index]">
                 <div class="product" :key="i">
                   <div class="img">
                     <img :src="a.s_goods_photos[0].path" alt="" />
                   </div>
                   <div class="content">
                     <p>{{ a.goods_name }}</p>
-                    <p>{{ a.sale_price }}元 x {{ a.sold_num }}</p>
+                    <p>{{ a.sale_price }}元 x {{ a.num }}</p>
                   </div>
                 </div>
               </template>
@@ -71,11 +79,14 @@ export default {
     };
   },
   methods: {
-    del() {
+    del(id) {
       this.axios
-        .delete(`api/order/545`)
-        .then((res) => {
-          console.log(res);
+        .delete(`api/order/${id}`)
+        .then(() => {
+          // this.orderArr = this.orderArr.filter((item) => {
+          //   return item.id != id;
+          // });
+          location.reload();
         })
         .catch((err) => {
           console.log(err);
@@ -88,7 +99,7 @@ export default {
       res.data.result.rows.forEach((item) => {
         this.orderProductArr.push(JSON.parse(item.goods_info));
       });
-      console.log(this.orderArr);
+      console.log(res);
     });
   },
 };
@@ -110,6 +121,7 @@ export default {
         margin-bottom: 20px;
       }
       .order {
+        position: relative;
         border: 1px solid #757575;
         margin-bottom: 30px;
         .up {
@@ -128,6 +140,18 @@ export default {
             span {
               color: #757575;
             }
+          }
+          // .icon {
+          //   position: absolute;
+          //   top: 10px;
+          //   right: 20px;
+          //   cursor: pointer;
+          // }
+          .el-icon-close {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            cursor: pointer;
           }
         }
         .dn {

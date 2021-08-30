@@ -19,7 +19,8 @@
               }}<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="a">注销</el-dropdown-item>
+              <el-dropdown-item command="a">我的订单</el-dropdown-item>
+              <el-dropdown-item command="b">注销</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -133,16 +134,17 @@ export default {
 
     handleCommand(command) {
       if (command === "a") {
+        this.$router.push("/order");
+      } else if (command === "b") {
         sessionStorage.setItem("token", "");
         this.$store.state.token = 0;
         this.$message("注销成功");
-        this.$router.replace("/");
       }
     },
     toOrder() {
       this.axios
         .post(`api/order`, {
-          addr_id: 1,
+          addr_id: 2,
           goods_info: this.goodsInfo,
         })
         .then((res) => {
@@ -151,6 +153,7 @@ export default {
             type: "success",
           });
           this.$router.replace("/order");
+          this.goodsInfo = [];
         })
         .catch((err) => {
           console.log(err);
@@ -180,7 +183,7 @@ export default {
   },
   mounted() {
     this.shoppingCartArr.forEach((item) => {
-      let obj = { id: item.id, num: item.num };
+      let obj = { id: item.goods_id, num: item.num };
       this.goodsInfo.push(obj);
     });
     console.log(this.goodsInfo);

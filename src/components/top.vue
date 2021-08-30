@@ -29,7 +29,8 @@
                 }}<i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="a">注销</el-dropdown-item>
+                <el-dropdown-item command="a">我的订单</el-dropdown-item>
+                <el-dropdown-item command="b">注销</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
             <span class="shopCar" @click="shopCar"
@@ -84,6 +85,8 @@ export default {
 
     handleCommand(command) {
       if (command === "a") {
+        this.$router.push("/order");
+      } else if (command === "b") {
         sessionStorage.setItem("token", "");
         this.$store.state.token = 0;
         this.$message("注销成功");
